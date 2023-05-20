@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "728346085208",
+    "project_id": "newsapp-3d277",
+    "storage_bucket": "newsapp-3d277.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:728346085208:android:65b0006b8d6dbbab2a472d",
+        "android_client_info": {
+          "package_name": "com.example.demoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "728346085208-oederjvjujqh82lc3qk6a1l7f15vasee.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6yYJ6TUBstqYUPN_3lR55-bc48rwN8CY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "728346085208-oederjvjujqh82lc3qk6a1l7f15vasee.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:728346085208:android:de78e9c431a3018c2a472d",
+        "android_client_info": {
+          "package_name": "com.example.funiture_shop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "728346085208-oederjvjujqh82lc3qk6a1l7f15vasee.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6yYJ6TUBstqYUPN_3lR55-bc48rwN8CY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "728346085208-oederjvjujqh82lc3qk6a1l7f15vasee.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
