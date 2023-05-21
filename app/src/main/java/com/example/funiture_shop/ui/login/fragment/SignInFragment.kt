@@ -9,21 +9,26 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.funiture_shop.MainActivity
 import com.example.funiture_shop.R
 import com.example.funiture_shop.common.afterTextChanged
 import com.example.funiture_shop.common.showToast
 import com.example.funiture_shop.data.model.res.SignInRes
 import com.example.funiture_shop.databinding.FragmentSignInBinding
-import com.example.funiture_shop.ui.login.LoginViewModel
+import com.example.funiture_shop.helper.SharedPreferencesHelper
+import com.example.funiture_shop.ui.login.viewmodel.SignInViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class SignInFragment : Fragment() {
 
     private lateinit var binding: FragmentSignInBinding
-
-    private val viewModel: LoginViewModel by viewModels()
+    @Inject
+    lateinit var sharedPreferencesHelper: SharedPreferencesHelper
+    private val viewModel: SignInViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,6 +39,7 @@ class SignInFragment : Fragment() {
         val password = binding.password
         val login = binding.login
         val loading = binding.loading
+        //val sharedPreferencesHelper = SharedPreferencesHelper(requireContext())
 
         viewModel.apply {
             loginFormState.observe(viewLifecycleOwner) {
@@ -54,6 +60,7 @@ class SignInFragment : Fragment() {
                 loading.visibility = View.GONE
                 when (it) {
                     is SignInRes.Success -> {
+                        sharedPreferencesHelper.saveUserInfo(userName = username.text.toString())
                         val intent = Intent(
                             requireActivity(), MainActivity::class.java
                         )
@@ -99,6 +106,9 @@ class SignInFragment : Fragment() {
                 loading.visibility = View.VISIBLE
                 viewModel.login(username.text.toString(), password.text.toString())
             }
+        }
+        binding.register.setOnClickListener {
+            findNavController().navigate(SignInFragmentDirections.actionSignInFragmentToSignUpFragment())
         }
         return binding.root
     }
