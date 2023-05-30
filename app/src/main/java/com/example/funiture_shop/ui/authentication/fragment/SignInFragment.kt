@@ -1,4 +1,4 @@
-package com.example.funiture_shop.ui.login.fragment
+package com.example.funiture_shop.ui.authentication.fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -14,10 +14,11 @@ import com.example.funiture_shop.MainActivity
 import com.example.funiture_shop.R
 import com.example.funiture_shop.common.afterTextChanged
 import com.example.funiture_shop.common.showToast
-import com.example.funiture_shop.data.model.res.SignInRes
+import com.example.funiture_shop.data.model.res.Res
 import com.example.funiture_shop.databinding.FragmentSignInBinding
 import com.example.funiture_shop.helper.SharedPreferencesHelper
-import com.example.funiture_shop.ui.login.viewmodel.SignInViewModel
+import com.example.funiture_shop.ui.authentication.viewmodel.SignInViewModel
+import com.google.firebase.firestore.auth.User
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -59,7 +60,7 @@ class SignInFragment : Fragment() {
             signInRes.observe(viewLifecycleOwner) {
                 loading.visibility = View.GONE
                 when (it) {
-                    is SignInRes.Success -> {
+                    is Res.Success<*> -> {
                         sharedPreferencesHelper.saveUserInfo(userName = username.text.toString())
                         val intent = Intent(
                             requireActivity(), MainActivity::class.java
@@ -67,7 +68,7 @@ class SignInFragment : Fragment() {
                         startActivity(intent)
                     }
 
-                    is SignInRes.Error -> {
+                    is Res.Error -> {
                         requireContext().showToast(
                             it.message
                         )

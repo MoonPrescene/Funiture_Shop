@@ -1,4 +1,4 @@
-package com.example.funiture_shop.ui.login.viewmodel
+package com.example.funiture_shop.ui.authentication.viewmodel
 
 import android.util.Patterns
 import androidx.lifecycle.LiveData
@@ -7,30 +7,41 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 import com.example.funiture_shop.R
 import com.example.funiture_shop.data.model.entity.LoginFormState
-import com.example.funiture_shop.data.model.res.SignInRes
-import com.example.funiture_shop.repository.LoginRepository
+import com.example.funiture_shop.data.model.entity.User
+import com.example.funiture_shop.data.model.res.Res
+import com.example.funiture_shop.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInViewModel @Inject constructor(
-    private val loginRepository: LoginRepository
+class SignUpViewModel @Inject constructor(
+    private val userRepository: UserRepository
 ) : ViewModel() {
-
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
+    private val _signUpInfo: MutableLiveData<SignInViewModel.LoginInfo> = MutableLiveData()
+    val loginInfo: LiveData<SignInViewModel.LoginInfo>
+        get() = _signUpInfo
 
-    private val _loginInfo: MutableLiveData<LoginInfo> = MutableLiveData()
-    val loginInfo: LiveData<LoginInfo>
-        get() = _loginInfo
+    private val _createUserInfo: MutableLiveData<User> = MutableLiveData()
+    val createUserInfo: LiveData<User>
+        get() = _createUserInfo
 
-    val signInRes: LiveData<SignInRes> = _loginInfo.switchMap { loginInfo ->
-        loginRepository.signIn(loginInfo.username, loginInfo.password)
+    val signInRes: LiveData<Res> = _signUpInfo.switchMap {
+        userRepository.signUp(it.username, it.password)
     }
 
-    fun login(username: String, password: String) {
-        val loginInfo = LoginInfo(username, password)
-        _loginInfo.value = loginInfo
+    fun signUp(username: String, password: String) {
+        val loginInfo = SignInViewModel.LoginInfo(username, password)
+        _signUpInfo.value = loginInfo
+    }
+
+    val createUserRes: LiveData<Res> = _createUserInfo.switchMap {
+        userRepository.createUser(user = it)
+    }
+
+    fun createUser(user: User){
+        _createUserInfo.value = user
     }
 
     fun loginDataChanged(username: String, password: String) {
@@ -56,6 +67,4 @@ class SignInViewModel @Inject constructor(
     private fun isPasswordValid(password: String): Boolean {
         return password.length > 5
     }
-
-    data class LoginInfo(val username: String, val password: String)
 }

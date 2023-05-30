@@ -1,4 +1,4 @@
-package com.example.funiture_shop.ui.login.viewmodel
+package com.example.funiture_shop.ui.authentication.viewmodel
 
 import android.util.Patterns
 import androidx.lifecycle.LiveData
@@ -7,28 +7,30 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 import com.example.funiture_shop.R
 import com.example.funiture_shop.data.model.entity.LoginFormState
-import com.example.funiture_shop.data.model.res.SignInRes
-import com.example.funiture_shop.repository.LoginRepository
+import com.example.funiture_shop.data.model.res.Res
+import com.example.funiture_shop.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(
-    private val loginRepository: LoginRepository
+class SignInViewModel @Inject constructor(
+    private val userRepository: UserRepository
 ) : ViewModel() {
+
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
-    private val _signUpInfo: MutableLiveData<SignInViewModel.LoginInfo> = MutableLiveData()
-    val loginInfo: LiveData<SignInViewModel.LoginInfo>
-        get() = _signUpInfo
 
-    val signInRes: LiveData<SignInRes> = _signUpInfo.switchMap {
-        loginRepository.signUp(it.username, it.password)
+    private val _loginInfo: MutableLiveData<LoginInfo> = MutableLiveData()
+    val loginInfo: LiveData<LoginInfo>
+        get() = _loginInfo
+
+    val signInRes: LiveData<Res> = _loginInfo.switchMap { loginInfo ->
+        userRepository.signIn(loginInfo.username, loginInfo.password)
     }
 
-    fun signUp(username: String, password: String) {
-        val loginInfo = SignInViewModel.LoginInfo(username, password)
-        _signUpInfo.value = loginInfo
+    fun login(username: String, password: String) {
+        val loginInfo = LoginInfo(username, password)
+        _loginInfo.value = loginInfo
     }
 
     fun loginDataChanged(username: String, password: String) {
@@ -54,4 +56,6 @@ class SignUpViewModel @Inject constructor(
     private fun isPasswordValid(password: String): Boolean {
         return password.length > 5
     }
+
+    data class LoginInfo(val username: String, val password: String)
 }

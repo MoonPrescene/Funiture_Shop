@@ -1,15 +1,12 @@
-package com.example.funiture_shop.ui.login
+package com.example.funiture_shop
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
-import com.example.funiture_shop.MainActivity
-import com.example.funiture_shop.R
 import com.example.funiture_shop.common.showToast
 import com.example.funiture_shop.databinding.ActivityLoginBinding
 import com.example.funiture_shop.helper.SharedPreferencesHelper
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

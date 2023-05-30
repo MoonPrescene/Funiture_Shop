@@ -1,4 +1,4 @@
-package com.example.funiture_shop
+package com.example.funiture_shop.ui.authentication.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.example.funiture_shop.R
 import com.example.funiture_shop.databinding.FragmentSecondBinding
 
 /**

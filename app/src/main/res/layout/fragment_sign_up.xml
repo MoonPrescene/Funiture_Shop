@@ -11,7 +11,7 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ui.login.LoginActivity">
+            tools:context=".LoginActivity">
 
             <ImageView
                 android:id="@+id/topBg"
@@ -82,6 +82,43 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phoneNumberTextField"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:hint="Phone"
+                app:layout_constraintTop_toBottomOf="@id/nameTextField">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phoneNumber"
+                    android:inputType="number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/addressTextField"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:hint="Address"
+                app:layout_constraintTop_toBottomOf="@id/phoneNumberTextField">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/passwordTextField"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
@@ -91,7 +128,7 @@
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:hint="Password"
                 app:endIconMode="password_toggle"
-                app:layout_constraintTop_toBottomOf="@id/nameTextField">
+                app:layout_constraintTop_toBottomOf="@id/addressTextField">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/password"
