@@ -8,7 +8,6 @@ import com.example.funiture_shop.di.runOnIoThread
 import com.example.funiture_shop.helper.SharedPreferencesHelper
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -49,16 +48,16 @@ class ProductRepository @Inject constructor(
 
     private fun covertToProduct(document: QueryDocumentSnapshot): Product {
         return Product(
-            productId = document.getString("").toString(),
-            name = document.getString("").toString(),
-            yearProduct = document.getString("").toString(),
-            type = document.getString("").toString(),
-            numberSold = document.getDouble("")!!.toInt(),
-            numberInventory = document.getDouble("")!!.toInt(),
-            price = document.getDouble("")!!,
-            importPrice = document.getDouble("")!!,
-            descriptions = document.getString("").toString(),
-            imgUrl = document.getString("").toString()
+            productId = document.id,
+            name = document.getString("name").toString(),
+            yearProduct = document.getString("year_of_product").toString(),
+            type = document.getString("type").toString(),
+            numberSold = document.getDouble("number_sold")!!.toInt(),
+            numberInventory = document.getDouble("number_inventory")!!.toInt(),
+            price = document.getDouble("price")!!,
+            importPrice = document.getDouble("importPrice")!!,
+            descriptions = document.getString("descriptions").toString(),
+            imgUrl = document.getString("imgUrl").toString()
         )
     }
 }

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.funiture_shop.R
 import com.example.funiture_shop.data.model.entity.Product
 import com.example.funiture_shop.databinding.ListItemProductBinding
+import com.squareup.picasso.Picasso
 
 class ProductAdapter(
     var listProduct: ArrayList<Product> = arrayListOf()
@@ -14,6 +15,9 @@ class ProductAdapter(
     class ViewHolder(val binding: ListItemProductBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bindView(product: Product) {
             binding.product = product
+            Picasso.get()
+                .load(product.imgUrl)
+                .into(binding.image)
         }
     }
 

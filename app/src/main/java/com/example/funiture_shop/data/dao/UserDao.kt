@@ -7,9 +7,4 @@ import com.example.funiture_shop.data.model.entity.User
 
 @Dao
 interface UserDao {
-    @Insert
-    suspend fun insert(user: User)
-
-    @Delete
-    suspend fun deleteUser(user: User)
 }

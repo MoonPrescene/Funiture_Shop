@@ -18,10 +18,6 @@ class HomeViewModel @Inject constructor(
     val getListProductInfo: LiveData<String>
         get() = _getListProductInfo
 
-    private val _createUserInfo: MutableLiveData<User> = MutableLiveData()
-    val createUserInfo: LiveData<User>
-        get() = _createUserInfo
-
     val info: LiveData<Res> = _getListProductInfo.switchMap {
         productRepository.getListProduct()
     }
