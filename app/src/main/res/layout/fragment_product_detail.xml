@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="com.example.funiture_shop.data.model.entity.Product"/>
+        <variable
+            name="product"
+            type="Product" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.authentication.fragment.ProductDetailFragment">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:id="@+id/collapsingToolbarLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_launcher_background" />
+
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        app:layout_collapseMode="pin"
+                        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="-27dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:text="@{product.toPrice()}"
+                        android:textColor="@color/primary_500"
+                        android:textSize="28sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:id="@+id/lineTop"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="8"
+                        app:layout_constraintTop_toBottomOf="@id/textPrice">
+
+                        <TextView
+                            android:id="@+id/textName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="22"
+                            android:text="@{product.name}"
+                            android:textColor="@color/primary_text"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/textPrice" />
+
+                        <RatingBar
+                            android:id="@+id/rating_bar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_weight="1"
+                            android:contentDescription="lmao"
+                            android:numStars="5"
+                            android:rating="4"
+                            android:scaleX="0.45"
+                            android:scaleY="0.45"
+                            android:stepSize="1" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="Color Option"
+                        android:textColor="@color/primary_text"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/lineTop" />
+
+                    <RadioGroup
+                        android:id="@+id/radio_group"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textColor">
+
+                        <RadioButton
+                            android:id="@+id/radio_button_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/primary_500" />
+
+                        <RadioButton
+                            android:id="@+id/radio_button_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/secondary_text" />
+
+                        <RadioButton
+                            android:id="@+id/radio_button_3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/main_button" />
+
+                    </RadioGroup>
+
+                    <TextView
+                        android:id="@+id/textDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="Descriptions"
+                        android:textColor="@color/primary_text"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/radio_group" />
+
+                    <TextView
+                        android:id="@+id/description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="16sp"
+                        android:text="@{product.descriptions}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textDescription" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:backgroundTint="@color/white"
+                android:baselineAlignBottom="false"
+                android:contentDescription="lmao"
+                android:src="@drawable/baseline_heart_broken_24"
+                app:fabSize="normal"
+                app:layout_anchor="@id/collapsingToolbarLayout"
+                app:layout_anchorGravity="end|bottom" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <LinearLayout
+            android:id="@+id/add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/baseline_add_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="Add to Cart"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

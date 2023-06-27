@@ -1,0 +1,5 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/main_button" /> <!-- Set your desired background color -->
+    <corners android:topLeftRadius="28dp" /> <!-- Adjust the radius as per your preference -->
+
+</shape>

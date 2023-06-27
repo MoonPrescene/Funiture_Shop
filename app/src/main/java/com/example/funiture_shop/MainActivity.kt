@@ -8,13 +8,17 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.funiture_shop.databinding.ActivityMainBinding
+import com.example.funiture_shop.helper.SharedPreferencesHelper
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    @Inject
+    lateinit var sharedPreferencesHelper: SharedPreferencesHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +33,8 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            sharedPreferencesHelper.logout()
+            this.finish()
         }
     }
 

@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -24,5 +27,13 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailFragment"
+        android:name="com.example.funiture_shop.ui.authentication.fragment.ProductDetailFragment"
+        android:label="ProductDetailFragment" >
+        <argument
+            android:name="product"
+            app:argType="com.example.funiture_shop.data.model.entity.Product" />
     </fragment>
 </navigation>
