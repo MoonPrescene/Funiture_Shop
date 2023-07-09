@@ -16,6 +16,8 @@
     <color name="transparent">#00FFFFFF</color>
     <color name="brown">#EABF7C</color>
 
+    <color name="golden">#FDB601</color>
+    <color name="golden_200">#4DFDB601</color>
     <color name="main_bg">#F4F6FA</color>
     <color name="primary_text">#22313F</color>
     <color name="secondary_text">#99313F99</color>

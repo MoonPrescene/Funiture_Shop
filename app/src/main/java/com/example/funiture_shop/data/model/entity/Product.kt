@@ -28,6 +28,7 @@ class Product(
     }
 
     fun convertToInvoiceLine() = InvoiceLine(
+        productId = productId,
         name = name,
         yearProduct = yearProduct,
         type = type,

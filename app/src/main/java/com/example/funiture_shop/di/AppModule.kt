@@ -6,6 +6,7 @@ import com.example.funiture_shop.common.Const
 import com.example.funiture_shop.data.dao.InvoiceLineDao
 import com.example.funiture_shop.data.dao.OrderDao
 import com.example.funiture_shop.data.dao.ProductDao
+import com.example.funiture_shop.data.dao.ReviewDao
 import com.example.funiture_shop.data.dao.UserDao
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -61,6 +62,11 @@ class AppModule {
     @Provides
     fun provideInvoiceLineDao(appDatabase: AppDatabase): InvoiceLineDao {
         return appDatabase.invoiceLineDao()
+    }
+
+    @Provides
+    fun provideReviewDao(appDatabase: AppDatabase): ReviewDao {
+        return appDatabase.reviewDao()
     }
 
 }

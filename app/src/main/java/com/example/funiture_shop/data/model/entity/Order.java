@@ -21,7 +21,7 @@ public class Order implements Serializable {
     private double total = 0.0;
 
     @Ignore
-    private ArrayList<Product> list = new ArrayList<>();
+    private ArrayList<InvoiceLine> list = new ArrayList<>();
 
 
     public String getOrderID() {
@@ -81,4 +81,11 @@ public class Order implements Serializable {
     }
 
 
+    public ArrayList<InvoiceLine> getList() {
+        return list;
+    }
+
+    public void setList(ArrayList<InvoiceLine> list) {
+        this.list = list;
+    }
 }

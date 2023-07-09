@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -26,9 +25,6 @@ import com.example.funiture_shop.ui.authentication.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
 @AndroidEntryPoint
 class HomeFragment : Fragment(), OnItemProductClickListener {
 
@@ -70,6 +66,9 @@ class HomeFragment : Fragment(), OnItemProductClickListener {
                 }
                 popup.show()
             }
+            cart.setOnClickListener {
+                findNavController().navigate(R.id.action_FirstFragment_to_cartFragment)
+            }
         }
         observeData()
     }
@@ -84,6 +83,7 @@ class HomeFragment : Fragment(), OnItemProductClickListener {
                     productAdapter.notifyDataSetChanged()
                 }
             }
+
             listInvoiceLineInCart().observe(viewLifecycleOwner) {
                 if (it != null) {
                     listInvoiceLineInCart = it as ArrayList<InvoiceLine>
@@ -135,6 +135,7 @@ class HomeFragment : Fragment(), OnItemProductClickListener {
         if (existingProduct != null) {
             existingProduct.quantity += 1
         } else {
+            product.quantity = 1
             listInvoiceLineInCart.add(product.convertToInvoiceLine())
         }
         viewModel.insertInvoiceLines(listInvoiceLineInCart)

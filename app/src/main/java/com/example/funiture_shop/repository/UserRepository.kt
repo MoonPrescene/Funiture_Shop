@@ -1,15 +1,20 @@
 package com.example.funiture_shop.repository
 
 import android.net.Uri
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.example.funiture_shop.data.model.entity.User
 import com.example.funiture_shop.data.model.res.Res
 import com.example.funiture_shop.helper.SharedPreferencesHelper
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import javax.inject.Inject
 import javax.inject.Singleton
+
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -29,7 +34,9 @@ class UserRepository @Inject constructor(
     private val updateImageLiveData = MutableLiveData<Res>()
     private val upImageUserLiveData = MutableLiveData<Res>()
     private val resetPasswordLiveData = MutableLiveData<Res>()
+    private val getUserLiveData = MutableLiveData<Res>()
     private val createUserLiveData = MutableLiveData<Res>()
+    private lateinit var mUser: FirebaseUser
 
     fun signIn(email: String, pass: String): MutableLiveData<Res> {
         //this signInWithEmailAndPassword run default on main thread :v
@@ -54,7 +61,7 @@ class UserRepository @Inject constructor(
         return signUpLiveData
     }
 
-    private fun addAvatarToStorage(image: Uri): MutableLiveData<Res> {
+    fun addAvatarToStorage(image: Uri): MutableLiveData<Res> {
         val storageRef = storage.reference
 
         val fileName = sharedPreferencesHelper.getUserName()
@@ -71,6 +78,7 @@ class UserRepository @Inject constructor(
         }.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val downloadUrl = task.result
+                addAvatarUrlToDB(downloadUrl.toString())
                 updateImageLiveData.postValue(Res.Success(downloadUrl))
             } else {
                 updateImageLiveData.postValue(Res.Error(task.exception.toString()))
@@ -116,4 +124,56 @@ class UserRepository @Inject constructor(
             }
         return createUserLiveData
     }
+
+    private fun convertToUser(document: DocumentSnapshot): User {
+        return User(
+            email = document.id,
+            name = document.getString("name").toString(),
+            address = document.getString("address").toString(),
+            imageUrl = document.getString("imageUrl").toString(),
+            permission = document.getDouble("permission")!!.toInt(),
+            phoneNumber = document.getString("phoneNumber").toString(),
+        )
+    }
+
+    fun getUser(): MutableLiveData<Res> {
+        db.collection("products").document(sharedPreferencesHelper.getUserName())
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                var user = User()
+                user = convertToUser(querySnapshot)
+                getUserLiveData.postValue(Res.Success(data = user))
+            }
+            .addOnFailureListener { exception ->
+                getUserLiveData.postValue(Res.Error(exception.message.toString()))
+            }
+        return getUserLiveData
+    }
+
+    /*private fun changePassword(currentPassword: String, newPassword: String) {
+        // Get the current user
+        mUser = auth.getCurrentUser()
+
+        // Create an AuthCredential object with the user's email and current password
+        val credential = EmailAuthProvider.getCredential(mUser.getEmail(), currentPassword)
+
+        // Reauthenticate the user with the provided credentials
+        mUser.reauthenticate(credential)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful()) {
+                    // User successfully reauthenticated, update the password
+                    mUser.updatePassword(newPassword)
+                        .addOnCompleteListener { updateTask ->
+                            if (updateTask.isSuccessful()) {
+                                // Password updated successfully
+
+                            } else {
+
+                            }
+                        }
+                } else {
+                    // Failed to reauthenticate user
+                }
+            }
+    }*/
 }

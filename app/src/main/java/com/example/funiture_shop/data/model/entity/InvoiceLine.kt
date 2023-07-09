@@ -17,7 +17,8 @@ class InvoiceLine(
     val importPrice: Double = 0.0,
     var descriptions: String = "",
     var imgUrl: String = "",
-    var quantity: Int = 0
+    var quantity: Int = 0,
+    var isSelected: Boolean = true
 ) : Serializable {
     fun toPrice(): String {
         return price.formatPrice()
@@ -28,6 +29,7 @@ class InvoiceLine(
     }
 
     fun convertToProduct() = Product(
+        productId = productId,
         name = name,
         yearProduct = yearProduct,
         type = type,
