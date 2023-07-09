@@ -3,6 +3,8 @@ package com.example.funiture_shop.di
 import android.content.Context
 import androidx.room.Room
 import com.example.funiture_shop.common.Const
+import com.example.funiture_shop.data.dao.InvoiceLineDao
+import com.example.funiture_shop.data.dao.OrderDao
 import com.example.funiture_shop.data.dao.ProductDao
 import com.example.funiture_shop.data.dao.UserDao
 import com.google.firebase.auth.FirebaseAuth
@@ -38,7 +40,7 @@ class AppModule {
             context.applicationContext,
             AppDatabase::class.java,
             Const.DB_NAME
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     @Provides
@@ -49,6 +51,16 @@ class AppModule {
     @Provides
     fun provideProductDao(appDatabase: AppDatabase): ProductDao {
         return appDatabase.productDao()
+    }
+
+    @Provides
+    fun provideOrderDao(appDatabase: AppDatabase): OrderDao {
+        return appDatabase.orderDao()
+    }
+
+    @Provides
+    fun provideInvoiceLineDao(appDatabase: AppDatabase): InvoiceLineDao {
+        return appDatabase.invoiceLineDao()
     }
 
 }

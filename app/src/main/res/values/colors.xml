@@ -13,6 +13,8 @@
     <color name="primary_200">#4DFF6162</color>
     <color name="primary_300">#1AFF6162</color>
     <color name="primary_100">#0DFF6162</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="brown">#EABF7C</color>
 
     <color name="main_bg">#F4F6FA</color>
     <color name="primary_text">#22313F</color>

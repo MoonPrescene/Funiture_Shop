@@ -1,7 +1,11 @@
 package com.example.funiture_shop.repository
 
 import androidx.lifecycle.MutableLiveData
+import com.example.funiture_shop.data.dao.InvoiceLineDao
+import com.example.funiture_shop.data.dao.OrderDao
 import com.example.funiture_shop.data.dao.ProductDao
+import com.example.funiture_shop.data.model.entity.InvoiceLine
+import com.example.funiture_shop.data.model.entity.Order
 import com.example.funiture_shop.data.model.entity.Product
 import com.example.funiture_shop.data.model.res.Res
 import com.example.funiture_shop.di.runOnIoThread
@@ -17,7 +21,9 @@ class ProductRepository @Inject constructor(
     private val storage: FirebaseStorage,
     private val db: FirebaseFirestore,
     private val sharedPreferencesHelper: SharedPreferencesHelper,
-    private val productDao: ProductDao
+    private val productDao: ProductDao,
+    private val orderDao: OrderDao,
+    private val invoiceLineDao: InvoiceLineDao
 ) {
     private val listProductLiveData = MutableLiveData<Res>()
 
@@ -38,11 +44,27 @@ class ProductRepository @Inject constructor(
         return listProductLiveData
     }
 
-    private fun insertListProduct(list: ArrayList<Product>){
+    private fun insertListProduct(list: ArrayList<Product>) {
         runOnIoThread {
             productDao.insertEntities(list)
         }
     }
+
+    private fun insertCart(order: Order) {
+        runOnIoThread {
+            orderDao.deleteCart()
+            orderDao.insertEntities(order)
+        }
+    }
+
+    fun insertInvoiceLine(invoiceLine: ArrayList<InvoiceLine>) {
+        runOnIoThread {
+            invoiceLineDao.deleteAll()
+            invoiceLineDao.insertEntities(invoiceLine)
+        }
+    }
+
+    fun getInvoiceLines() = invoiceLineDao.invoiceLines
 
     fun listProduct() = productDao.getAllEntities()
 

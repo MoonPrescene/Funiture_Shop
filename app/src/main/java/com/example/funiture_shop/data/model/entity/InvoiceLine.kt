@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey
 import com.example.funiture_shop.common.formatPrice
 import java.io.Serializable
 
-@Entity(tableName = "products")
-class Product(
+@Entity(tableName = "invoiceLines")
+class InvoiceLine(
     @PrimaryKey val productId: String = "",
     val name: String = "",
     val yearProduct: String = "",
@@ -27,7 +27,7 @@ class Product(
         return price * quantity;
     }
 
-    fun convertToInvoiceLine() = InvoiceLine(
+    fun convertToProduct() = Product(
         name = name,
         yearProduct = yearProduct,
         type = type,

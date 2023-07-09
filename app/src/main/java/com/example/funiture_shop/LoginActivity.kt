@@ -14,6 +14,7 @@ import javax.inject.Inject
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+
     @Inject
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
 
@@ -36,7 +37,6 @@ class LoginActivity : AppCompatActivity() {
                 this, MainActivity::class.java
             )
             startActivity(intent)
-            this.showToast(sharedPreferencesHelper.getUserName())
         }
     }
 }

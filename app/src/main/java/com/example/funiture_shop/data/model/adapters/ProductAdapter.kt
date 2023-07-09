@@ -10,11 +10,23 @@ import com.example.funiture_shop.databinding.ListItemProductBinding
 import com.squareup.picasso.Picasso
 
 class ProductAdapter(
-    var listProduct: ArrayList<Product> = arrayListOf()
+    var listProduct: ArrayList<Product> = arrayListOf(),
+    private val onItemProductClickListener: OnItemProductClickListener
 ) : RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
-    class ViewHolder(val binding: ListItemProductBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(
+        val binding: ListItemProductBinding,
+        private val onItemProductClickListener: OnItemProductClickListener
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bindView(product: Product) {
             binding.product = product
+            binding.apply {
+                parentView.setOnClickListener {
+                    onItemProductClickListener.onItemProductClick(product)
+                }
+                addToCartButton.setOnClickListener {
+                    onItemProductClickListener.onItemProductAdded(product)
+                }
+            }
             Picasso.get()
                 .load(product.imgUrl)
                 .into(binding.image)
@@ -28,7 +40,7 @@ class ProductAdapter(
             parent,
             false
         )
-        return ViewHolder(binding)
+        return ViewHolder(binding, onItemProductClickListener)
     }
 
     override fun getItemCount(): Int {
@@ -38,4 +50,9 @@ class ProductAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         return holder.bindView(listProduct[position])
     }
+}
+
+interface OnItemProductClickListener {
+    fun onItemProductClick(product: Product)
+    fun onItemProductAdded(product: Product)
 }

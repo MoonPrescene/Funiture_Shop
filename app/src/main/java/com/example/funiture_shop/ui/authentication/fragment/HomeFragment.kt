@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -13,7 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.funiture_shop.R
 import com.example.funiture_shop.common.showToast
+import com.example.funiture_shop.data.model.adapters.OnItemProductClickListener
 import com.example.funiture_shop.data.model.adapters.ProductAdapter
+import com.example.funiture_shop.data.model.entity.InvoiceLine
 import com.example.funiture_shop.data.model.entity.Product
 import com.example.funiture_shop.data.model.res.Res
 import com.example.funiture_shop.databinding.FragmentHomeBinding
@@ -26,7 +30,7 @@ import javax.inject.Inject
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), OnItemProductClickListener {
 
     @Inject
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
@@ -35,6 +39,7 @@ class HomeFragment : Fragment() {
     private lateinit var productAdapter: ProductAdapter
     private var listProduct = arrayListOf<Product>()
     private val snapHelper = PagerSnapHelper()
+    private var listInvoiceLineInCart = arrayListOf<InvoiceLine>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,14 +51,25 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //val sharedPreferencesHelper = SharedPreferencesHelper(requireContext())
-        /*binding.buttonFirst.setOnClickListener {
-            sharedPreferencesHelper.logout()
-            requireActivity().finish()
-        }*/
+
         setupRecyclerView()
         binding.apply {
+            userButton.setOnClickListener {
+                val popup = PopupMenu(binding.root.context, binding.userButton)
+                popup.inflate(R.menu.menu_user_more)
+                popup.setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.logout -> {
+                            sharedPreferencesHelper.logout()
+                            requireActivity().finish()
+                            true
+                        }
 
+                        else -> false
+                    }
+                }
+                popup.show()
+            }
         }
         observeData()
     }
@@ -64,8 +80,18 @@ class HomeFragment : Fragment() {
             listProduct().observe(viewLifecycleOwner) {
                 if (it != null) {
                     listProduct = it as ArrayList<Product>
-                    productAdapter.listProduct = this@HomeFragment.listProduct
+                    productAdapter.listProduct = it
                     productAdapter.notifyDataSetChanged()
+                }
+            }
+            listInvoiceLineInCart().observe(viewLifecycleOwner) {
+                if (it != null) {
+                    listInvoiceLineInCart = it as ArrayList<InvoiceLine>
+                    if (listInvoiceLineInCart.isNotEmpty()) {
+                        binding.isNotEmpty.visibility = View.VISIBLE
+                    } else {
+                        binding.isNotEmpty.visibility = View.GONE
+                    }
                 }
             }
             info.observe(viewLifecycleOwner) {
@@ -85,15 +111,33 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        if (!::productAdapter.isInitialized) {
-            productAdapter = ProductAdapter(listProduct)
-            binding.recyclerViewProduct.apply {
-                adapter = productAdapter
-                layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            }
+        productAdapter = ProductAdapter(listProduct, this)
+        binding.recyclerViewProduct.apply {
+            adapter = productAdapter
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
         snapHelper.attachToRecyclerView(binding.recyclerViewProduct)
+    }
+
+    override fun onItemProductClick(product: Product) {
+        navigateToProductDetail(product)
+    }
+
+    private fun navigateToProductDetail(product: Product) {
+        val action = HomeFragmentDirections.actionFirstFragmentToProductDetailFragment(product)
+        findNavController().navigate(action)
+    }
+
+    override fun onItemProductAdded(product: Product) {
+        val existingProduct =
+            listInvoiceLineInCart.firstOrNull { it.productId == product.productId }
+        if (existingProduct != null) {
+            existingProduct.quantity += 1
+        } else {
+            listInvoiceLineInCart.add(product.convertToInvoiceLine())
+        }
+        viewModel.insertInvoiceLines(listInvoiceLineInCart)
     }
 
 }

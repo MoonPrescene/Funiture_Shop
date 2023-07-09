@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
-        <import type="com.example.funiture_shop.data.model.entity.Product"/>
+
+        <import type="com.example.funiture_shop.data.model.entity.Product" />
+
         <variable
             name="product"
             type="Product" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -25,26 +29,37 @@
                 <com.google.android.material.appbar.CollapsingToolbarLayout
                     android:id="@+id/collapsingToolbarLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="350dp"
+                    android:background="@drawable/border_layout_default"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
 
                     app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-                    <ImageView
-                        android:id="@+id/imageView"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_launcher_background" />
+                        android:layout_height="wrap_content">
 
-                    <androidx.appcompat.widget.Toolbar
-                        android:id="@+id/toolbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        app:layout_collapseMode="pin"
-                        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="3"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="match_parent"
+                            android:layout_height="400dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_launcher_background"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
 
             </com.google.android.material.appbar.AppBarLayout>
@@ -61,39 +76,71 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/textPrice"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:text="@{product.toPrice()}"
-                        android:textColor="@color/primary_500"
-                        android:textSize="28sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <LinearLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/lineTop"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="8"
-                        app:layout_constraintTop_toBottomOf="@id/textPrice">
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
                             android:id="@+id/textName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_margin="16dp"
                             android:layout_marginStart="16dp"
-                            android:layout_weight="22"
+                            android:layout_weight="1"
+                            android:gravity="start"
                             android:text="@{product.name}"
                             android:textColor="@color/primary_text"
                             android:textSize="20sp"
                             android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/textPrice" />
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/textPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:layout_margin="16dp"
+                            android:gravity="end"
+                            android:text="@{product.toPrice()}"
+                            android:textColor="@color/primary_500"
+                            android:textSize="28sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/lineMiddle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/lineTop">
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="16dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:gravity="start"
+                            android:text="Đánh giá: "
+                            android:textColor="@color/primary_text"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
 
                         <RatingBar
                             android:id="@+id/rating_bar"
@@ -106,8 +153,13 @@
                             android:rating="4"
                             android:scaleX="0.45"
                             android:scaleY="0.45"
-                            android:stepSize="1" />
-                    </LinearLayout>
+                            android:stepSize="1"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
                         android:id="@+id/textColor"
@@ -115,11 +167,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginBottom="16dp"
-                        android:text="Color Option"
+                        android:text="Màu sắc"
+                        android:textStyle="bold"
                         android:textColor="@color/primary_text"
                         android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/lineTop" />
+                        app:layout_constraintTop_toBottomOf="@id/lineMiddle" />
 
                     <RadioGroup
                         android:id="@+id/radio_group"
@@ -135,19 +188,24 @@
                             android:id="@+id/radio_button_1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/primary_500" />
+                            android:buttonTint="@color/primary_500"
+                            android:text="Nâu"/>
 
                         <RadioButton
                             android:id="@+id/radio_button_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:buttonTint="@color/secondary_text"
+                            android:text="Xám"
                             android:textColor="@color/secondary_text" />
 
                         <RadioButton
                             android:id="@+id/radio_button_3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/main_button" />
+                            android:text="Đen"
+                            android:buttonTint="@color/main_button"
+                            android:textColor="@color/main_button"/>
 
                     </RadioGroup>
 
@@ -157,7 +215,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginBottom="16dp"
-                        android:text="Descriptions"
+                        android:text="Mô tả"
+                        android:textStyle="bold"
                         android:textColor="@color/primary_text"
                         android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -169,9 +228,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginBottom="16dp"
+                        android:text="@{product.descriptions}"
                         android:textColor="@color/secondary_text"
                         android:textSize="16sp"
-                        android:text="@{product.descriptions}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/textDescription" />
 
@@ -179,17 +238,6 @@
 
             </androidx.core.widget.NestedScrollView>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
-                android:backgroundTint="@color/white"
-                android:baselineAlignBottom="false"
-                android:contentDescription="lmao"
-                android:src="@drawable/baseline_heart_broken_24"
-                app:fabSize="normal"
-                app:layout_anchor="@id/collapsingToolbarLayout"
-                app:layout_anchorGravity="end|bottom" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

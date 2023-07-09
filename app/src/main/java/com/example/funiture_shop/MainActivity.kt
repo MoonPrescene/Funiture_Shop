@@ -17,25 +17,25 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+
     @Inject
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
+
+    override fun onStart() {
+        supportActionBar?.hide()
+        super.onStart()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setSupportActionBar(binding.toolbar)
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-        binding.fab.setOnClickListener { view ->
-            sharedPreferencesHelper.logout()
-            this.finish()
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

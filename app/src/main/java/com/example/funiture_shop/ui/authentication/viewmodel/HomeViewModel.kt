@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
+import com.example.funiture_shop.data.model.entity.InvoiceLine
 import com.example.funiture_shop.data.model.entity.User
 import com.example.funiture_shop.data.model.res.Res
 import com.example.funiture_shop.repository.ProductRepository
@@ -15,8 +16,6 @@ class HomeViewModel @Inject constructor(
     private val productRepository: ProductRepository
 ) : ViewModel() {
     private val _getListProductInfo: MutableLiveData<String> = MutableLiveData()
-    val getListProductInfo: LiveData<String>
-        get() = _getListProductInfo
 
     val info: LiveData<Res> = _getListProductInfo.switchMap {
         productRepository.getListProduct()
@@ -27,5 +26,11 @@ class HomeViewModel @Inject constructor(
     }
 
     fun listProduct() = productRepository.listProduct()
+
+    fun listInvoiceLineInCart() = productRepository.getInvoiceLines()
+
+    fun insertInvoiceLines(invoiceLines: ArrayList<InvoiceLine>) {
+        productRepository.insertInvoiceLine(invoiceLine = invoiceLines)
+    }
 
 }
