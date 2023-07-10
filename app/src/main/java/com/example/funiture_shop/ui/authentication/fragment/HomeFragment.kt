@@ -55,6 +55,15 @@ class HomeFragment : Fragment(), OnItemProductClickListener {
                 popup.inflate(R.menu.menu_user_more)
                 popup.setOnMenuItemClickListener { item ->
                     when (item.itemId) {
+                        R.id.editInfo -> {
+                            findNavController().navigate(R.id.action_FirstFragment_to_accountFragment)
+                            true
+                        }
+
+                        R.id.order_history -> {
+                            true
+                        }
+
                         R.id.logout -> {
                             sharedPreferencesHelper.logout()
                             requireActivity().finish()

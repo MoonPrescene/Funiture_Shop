@@ -31,6 +31,9 @@ import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class AccountFragment extends Fragment {
 
     private AccountViewModel mViewModel;
@@ -46,7 +49,7 @@ public class AccountFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_account, container, false);
         mViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
-        Picasso.get().load(user.getImageUrl()).into(binding.imageAvatar);
+        mViewModel.getUser();
         binding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +91,7 @@ public class AccountFragment extends Fragment {
             public void onChanged(Res res) {
                 if (res instanceof Res.Success) {
                     user = (User) ((Res.Success<?>) res).getData();
+                    Picasso.get().load(user.getImageUrl()).into(binding.imageAvatar);
                     binding.setUser(user);
                 } else if (res instanceof Res.Error) {
                     Toast.makeText(requireContext(), ((Res.Error) res).getMessage(), Toast.LENGTH_SHORT).show();

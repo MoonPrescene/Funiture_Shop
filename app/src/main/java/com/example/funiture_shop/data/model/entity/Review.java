@@ -12,13 +12,13 @@ public class Review implements Serializable {
     @NonNull
     private String reviewID = "";
     private String creater = "";
-    private int rating = 0;
+    private float rating = 0;
     private String textReview = "";
     private String title = "";
 
     private String timeCreate = "";
 
-    public Review(@NonNull String reviewID, String creater, int rating, String textReview, String title, String timeCreate) {
+    public Review(@NonNull String reviewID, String creater, float rating, String textReview, String title, String timeCreate) {
         this.reviewID = reviewID;
         this.creater = creater;
         this.rating = rating;
@@ -44,11 +44,11 @@ public class Review implements Serializable {
         this.creater = creater;
     }
 
-    public int getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 

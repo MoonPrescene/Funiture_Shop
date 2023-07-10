@@ -130,9 +130,10 @@ class UserRepository @Inject constructor(
             email = document.id,
             name = document.getString("name").toString(),
             address = document.getString("address").toString(),
-            imageUrl = document.getString("imageUrl").toString(),
-            permission = document.getDouble("permission")!!.toInt(),
-            phoneNumber = document.getString("phoneNumber").toString(),
+            imageUrl = document.getString("imgUrl").toString(),
+            permission = 0,
+            //document.getDouble("permission")!!.toInt(),
+            phoneNumber = document.getString("phoneNumbers").toString(),
         )
     }
 
@@ -140,8 +141,7 @@ class UserRepository @Inject constructor(
         db.collection("products").document(sharedPreferencesHelper.getUserName())
             .get()
             .addOnSuccessListener { querySnapshot ->
-                var user = User()
-                user = convertToUser(querySnapshot)
+                val user = convertToUser(querySnapshot)
                 getUserLiveData.postValue(Res.Success(data = user))
             }
             .addOnFailureListener { exception ->

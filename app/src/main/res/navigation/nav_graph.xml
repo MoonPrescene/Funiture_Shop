@@ -20,6 +20,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_cartFragment"
             app:destination="@id/cartFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_accountFragment"
+            app:destination="@id/accountFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -38,9 +41,24 @@
         <argument
             android:name="product"
             app:argType="com.example.funiture_shop.data.model.entity.Product" />
+        <action
+            android:id="@+id/action_productDetailFragment_to_ratingFragment"
+            app:destination="@id/ratingFragment" />
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.example.funiture_shop.ui.authentication.fragment.CartFragment"
         android:label="CartFragment" />
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.example.funiture_shop.ui.authentication.fragment.AccountFragment"
+        android:label="AccountFragment" />
+    <fragment
+        android:id="@+id/ratingFragment"
+        android:name="com.example.funiture_shop.ui.authentication.fragment.RatingFragment"
+        android:label="RatingFragment" >
+        <argument
+            android:name="productID"
+            app:argType="string" />
+    </fragment>
 </navigation>

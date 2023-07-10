@@ -165,7 +165,7 @@ class ProductRepository @Inject constructor(
         return Review(
             document.id,
             document.getString("creater").toString(),
-            document.getDouble("rating")!!.toInt(),
+            document.getDouble("rating")!!.toFloat(),
             document.getString("textreview").toString(),
             document.getString("title").toString(),
             document.getString("timecreate").toString()
