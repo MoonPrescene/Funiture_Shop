@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,8 +21,11 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.funiture_shop.R;
+import com.example.funiture_shop.data.model.adapters.InvoiceLineAdapter;
+import com.example.funiture_shop.data.model.adapters.ReviewAdapter;
 import com.example.funiture_shop.data.model.entity.InvoiceLine;
 import com.example.funiture_shop.data.model.entity.Product;
+import com.example.funiture_shop.data.model.entity.Review;
 import com.example.funiture_shop.databinding.FragmentProductDetailBinding;
 import com.example.funiture_shop.ui.authentication.viewmodel.ProductDetailViewModel;
 import com.squareup.picasso.Picasso;
@@ -38,6 +42,14 @@ public class ProductDetailFragment extends Fragment {
     private FragmentProductDetailBinding binding;
     private Product product;
     private ArrayList<InvoiceLine> listInvoiceLineInCart;
+    private ArrayList<Review> listReview = new ArrayList<>();
+    private ReviewAdapter reviewAdapter;
+    private void setupRecyclerView() {
+
+        reviewAdapter = new ReviewAdapter(listReview);
+        binding.recyclerview.setAdapter(reviewAdapter;
+        binding.recyclerview.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,

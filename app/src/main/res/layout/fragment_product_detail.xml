@@ -198,13 +198,14 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:elevation="0dp"
+                            android:layout_marginStart="12dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/rate"
                             app:layout_constraintTop_toTopOf="parent"
                             android:layout_marginBottom="10dp"
                             app:cardElevation="0dp"
                             android:backgroundTint="@color/golden_200"
-                            app:cardCornerRadius="12dp">
+                            app:cardCornerRadius="8dp">
                             <LinearLayout
                                 android:id="@+id/lnStatus"
                                 android:layout_gravity="center"
@@ -218,6 +219,7 @@
                                     android:layout_gravity="center"
                                     android:layout_height="20dp"
                                     android:textSize="12sp"
+                                    android:textStyle="bold"
                                     android:textColor="@color/golden"
                                     android:text="4.5"/>
                                 <ImageView
@@ -304,6 +306,8 @@
                         android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/textDescription" />
+
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

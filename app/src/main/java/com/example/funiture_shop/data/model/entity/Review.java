@@ -16,12 +16,15 @@ public class Review implements Serializable {
     private String textReview = "";
     private String title = "";
 
-    public Review(@NonNull String reviewID, String creater, int rating, String textReview, String title) {
+    private String timeCreate = "";
+
+    public Review(@NonNull String reviewID, String creater, int rating, String textReview, String title, String timeCreate) {
         this.reviewID = reviewID;
         this.creater = creater;
         this.rating = rating;
         this.textReview = textReview;
         this.title = title;
+        this.timeCreate = timeCreate;
     }
 
     @NonNull
@@ -63,5 +66,13 @@ public class Review implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getTimeCreate() {
+        return timeCreate;
+    }
+
+    public void setTimeCreate(String timeCreate) {
+        this.timeCreate = timeCreate;
     }
 }

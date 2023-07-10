@@ -140,6 +140,8 @@ class ProductRepository @Inject constructor(
         }
     }
 
+    fun reviewList() = reviewDao.reviews
+
     fun getInvoiceLines() = invoiceLineDao.invoiceLines
 
     fun listProduct() = productDao.getAllEntities()
@@ -165,7 +167,8 @@ class ProductRepository @Inject constructor(
             document.getString("creater").toString(),
             document.getDouble("rating")!!.toInt(),
             document.getString("textreview").toString(),
-            document.getString("title").toString()
+            document.getString("title").toString(),
+            document.getString("timecreate").toString()
         )
     }
 
