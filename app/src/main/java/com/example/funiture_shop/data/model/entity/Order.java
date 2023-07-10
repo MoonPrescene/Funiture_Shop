@@ -6,7 +6,9 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 @Entity(tableName = "orders")
 public class Order implements Serializable {
@@ -22,6 +24,16 @@ public class Order implements Serializable {
 
     @Ignore
     private ArrayList<InvoiceLine> list = new ArrayList<>();
+
+    public Order(String orderID, String userID, int quantity, String timeCreate, String address, int status, double total) {
+        this.orderID = orderID;
+        this.userID = userID;
+        this.quantity = quantity;
+        this.timeCreate = timeCreate;
+        this.address = address;
+        this.status = status;
+        this.total = total;
+    }
 
 
     public String getOrderID() {
@@ -87,5 +99,10 @@ public class Order implements Serializable {
 
     public void setList(ArrayList<InvoiceLine> list) {
         this.list = list;
+    }
+
+    public String getSumPrice() {
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault());
+        return numberFormat.format(total / 1000.0);
     }
 }

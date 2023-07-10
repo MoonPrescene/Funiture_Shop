@@ -61,6 +61,7 @@ class HomeFragment : Fragment(), OnItemProductClickListener {
                         }
 
                         R.id.order_history -> {
+                            findNavController().navigate(R.id.action_FirstFragment_to_historyOrderFragment)
                             true
                         }
 

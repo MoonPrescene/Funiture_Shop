@@ -33,6 +33,7 @@ class ProductRepository @Inject constructor(
     private val listProductLiveData = MutableLiveData<Res>()
     private val createOrderLiveData = MutableLiveData<Res>()
     private val reviewsLiveData = MutableLiveData<Res>()
+    private val listOrderLiveData = MutableLiveData<Res>()
     private val createReview = MutableLiveData<Res>()
 
     fun getListProduct(): MutableLiveData<Res> {
@@ -52,6 +53,23 @@ class ProductRepository @Inject constructor(
         return listProductLiveData
     }
 
+    fun getListOrder(): MutableLiveData<Res> {
+        db.collection("orders")
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                val list = arrayListOf<Order>()
+                for (document in querySnapshot) {
+                    list.add(convertToOrder(document))
+                }
+                insertOrders(list)
+                listOrderLiveData.postValue(Res.Success(data = null))
+            }
+            .addOnFailureListener { exception ->
+                listOrderLiveData.postValue(Res.Error(exception.message.toString()))
+            }
+        return listOrderLiveData
+    }
+
     fun getListReview(): MutableLiveData<Res> {
         db.collection("reviews, comments")
             .get()
@@ -61,12 +79,12 @@ class ProductRepository @Inject constructor(
                     list.add(convertToReview(document))
                 }
                 insertListReview(list)
-                listProductLiveData.postValue(Res.Success(data = null))
+                reviewsLiveData.postValue(Res.Success(data = null))
             }
             .addOnFailureListener { exception ->
-                listProductLiveData.postValue(Res.Error(exception.message.toString()))
+                reviewsLiveData.postValue(Res.Error(exception.message.toString()))
             }
-        return listProductLiveData
+        return reviewsLiveData
     }
 
     fun createReview(review: Review): MutableLiveData<Res> {
@@ -120,10 +138,10 @@ class ProductRepository @Inject constructor(
         }
     }
 
-    private fun insertCart(order: Order) {
+    private fun insertOrders(orders: List<Order>) {
         runOnIoThread {
             orderDao.deleteCart()
-            orderDao.insertEntities(order)
+            orderDao.insertEntities(orders)
         }
     }
 
@@ -145,6 +163,8 @@ class ProductRepository @Inject constructor(
     fun getInvoiceLines() = invoiceLineDao.invoiceLines
 
     fun listProduct() = productDao.getAllEntities()
+
+    fun getOrders() = orderDao.order
 
     private fun covertToProduct(document: QueryDocumentSnapshot): Product {
         return Product(
@@ -172,4 +192,15 @@ class ProductRepository @Inject constructor(
         )
     }
 
+    private fun convertToOrder(document: QueryDocumentSnapshot): Order {
+        return Order(
+            document.id,
+            document.getString("userID").toString(),
+            document.getDouble("quantity")!!.toInt(),
+            document.getString("timeCreate").toString(),
+            document.getString("address").toString(),
+            document.getDouble("status")!!.toInt(),
+            document.getDouble("total")!!,
+        )
+    }
 }

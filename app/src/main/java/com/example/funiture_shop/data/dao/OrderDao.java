@@ -8,13 +8,15 @@ import androidx.room.Query;
 
 import com.example.funiture_shop.data.model.entity.Order;
 
+import java.util.List;
+
 @Dao
 public interface OrderDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertEntities(Order order);
+    void insertEntities(List<Order> order);
 
     @Query("SELECT * FROM orders")
-    LiveData<Order> getOrder();
+    LiveData<List<Order>> getOrder();
 
     @Query("DELETE FROM orders")
     void deleteCart();

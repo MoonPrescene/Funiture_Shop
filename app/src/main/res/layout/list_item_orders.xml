@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="com.example.funiture_shop.data.model.entity.Order"/>
+        <variable
+            name="order"
+            type="Order" />
+    </data>
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="12dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card"
+                android:layout_width="6dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="24dp"
+                android:elevation="0dp"
+                app:cardBackgroundColor="@color/primary_500"
+                app:cardElevation="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/card"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{order.timeCreate}"
+                    android:textColor="@color/primary_text"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='@{"Mã đơn: " + order.orderID}'
+                    android:textColor="@color/primary_text" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='@{"Giá trị đơn: " + order.sumPrice}'
+                    android:textColor="@color/primary_text" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='@{"Địa chỉ: " + order.address}'
+                    android:textColor="@color/primary_text" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/moreButton"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@color/transparent"
+                android:src="@drawable/baseline_more_horiz_24"
+                android:layout_margin="12dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -42,7 +42,7 @@ public class CartFragment extends Fragment implements OnItemInvoiceLineClickList
 
     private CartViewModel mViewModel;
     private FragmentCartBinding binding;
-    private Order order = new Order();
+    private Order order = new Order("", "", 0, "", "", 0, 0.0);
     private InvoiceLineAdapter invoiceLineAdapter;
     private ArrayList<InvoiceLine> listInvoiceLineInCart = new ArrayList<>();
 

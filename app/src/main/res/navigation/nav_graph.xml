@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_accountFragment"
             app:destination="@id/accountFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_historyOrderFragment"
+            app:destination="@id/historyOrderFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -61,4 +64,8 @@
             android:name="productID"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/historyOrderFragment"
+        android:name="com.example.funiture_shop.ui.authentication.fragment.HistoryOrderFragment"
+        android:label="HistoryOrderFragment" />
 </navigation>
