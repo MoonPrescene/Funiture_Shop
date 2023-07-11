@@ -59,7 +59,7 @@ class SignUpFragment : Fragment() {
             signInRes.observe(viewLifecycleOwner) {
                 when (it) {
                     is Res.Success<*> -> {
-                        createUser(
+                        /*createUser(
                             User(
                                 email = username.text.toString(),
                                 name = name.text.toString(),
@@ -68,7 +68,9 @@ class SignUpFragment : Fragment() {
                                 permission = 1,
                                 imageUrl = ""
                             )
-                        )
+                        )*/
+                        requireContext().showToast("Create Account success!")
+                        findNavController().popBackStack()
                     }
 
                     is Res.Error -> {
@@ -79,7 +81,7 @@ class SignUpFragment : Fragment() {
                 }
             }
 
-            createUserRes.observe(viewLifecycleOwner) {
+            /*createUserRes.observe(viewLifecycleOwner) {
                 loading.visibility = View.GONE
                 when (it) {
                     is Res.Success<*> -> {
@@ -93,7 +95,7 @@ class SignUpFragment : Fragment() {
                         )
                     }
                 }
-            }
+            }*/
         }
 
         username.afterTextChanged {

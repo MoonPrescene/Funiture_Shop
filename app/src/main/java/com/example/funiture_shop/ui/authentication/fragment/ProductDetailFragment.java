@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.funiture_shop.AR_Activity;
 import com.example.funiture_shop.R;
 import com.example.funiture_shop.data.model.adapters.ReviewAdapter;
 import com.example.funiture_shop.data.model.entity.InvoiceLine;
@@ -70,6 +72,9 @@ public class ProductDetailFragment extends Fragment {
             RatingFragment destinationFragment = new RatingFragment();
             destinationFragment.setArguments(args);
             Navigation.findNavController(binding.getRoot()).navigate(R.id.action_productDetailFragment_to_ratingFragment, args);
+        });
+        binding.review3D.setOnClickListener(view -> {
+            startActivity(new Intent(requireActivity(), AR_Activity.class));
         });
         Picasso.get()
                 .load(product.getImgUrl())
