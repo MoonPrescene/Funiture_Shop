@@ -2,6 +2,8 @@ package com.example.funiture_shop.ui.authentication.fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,10 +16,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.funiture_shop.R
 import com.example.funiture_shop.common.showToast
+import com.example.funiture_shop.data.model.adapters.BestSaleProductAdapter
+import com.example.funiture_shop.data.model.adapters.OnItemBestSaleProductListener
 import com.example.funiture_shop.data.model.adapters.OnItemProductClickListener
+import com.example.funiture_shop.data.model.adapters.OnItemSearchQueryListener
 import com.example.funiture_shop.data.model.adapters.ProductAdapter
+import com.example.funiture_shop.data.model.adapters.SearchQueryAdapter
 import com.example.funiture_shop.data.model.entity.InvoiceLine
 import com.example.funiture_shop.data.model.entity.Product
+import com.example.funiture_shop.data.model.entity.SearchQuery
 import com.example.funiture_shop.data.model.res.Res
 import com.example.funiture_shop.databinding.FragmentHomeBinding
 import com.example.funiture_shop.helper.SharedPreferencesHelper
@@ -26,7 +33,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), OnItemProductClickListener {
+class HomeFragment : Fragment(), OnItemProductClickListener, OnItemSearchQueryListener,
+    OnItemBestSaleProductListener {
 
     @Inject
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
@@ -36,13 +44,70 @@ class HomeFragment : Fragment(), OnItemProductClickListener {
     private var listProduct = arrayListOf<Product>()
     private val snapHelper = PagerSnapHelper()
     private var listInvoiceLineInCart = arrayListOf<InvoiceLine>()
+    private var listSearchQuery = arrayListOf<SearchQuery>()
+    private lateinit var searchQueryAdapter: SearchQueryAdapter
+    private lateinit var bestSaleProductAdapter: BestSaleProductAdapter
+    private var searchQuery = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+        binding.editSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                binding.searchSuggestView.visibility = View.GONE
+            }
+
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                searchQuery = s.toString()
+                if (s.toString().isBlank()) {
+                    binding.searchSuggestView.visibility = View.GONE
+                } else {
+                    binding.searchSuggestView.visibility = View.VISIBLE
+                    val list = listSearchQuery.filter { it.content.contains(searchQuery) }
+                    searchQueryAdapter.listSearchQuery = list
+                    searchQueryAdapter.notifyDataSetChanged()
+                }
+            }
+
+            @SuppressLint("NotifyDataSetChanged")
+            override fun afterTextChanged(s: Editable?) {
+                searchQuery = s.toString()
+                if (s.toString().isBlank()) {
+                    binding.searchSuggestView.visibility = View.GONE
+                } else {
+                    binding.searchSuggestView.visibility = View.VISIBLE
+                    val list = listSearchQuery.filter { it.content.contains(searchQuery) }
+                    searchQueryAdapter.listSearchQuery = list
+                    searchQueryAdapter.notifyDataSetChanged()
+                }
+            }
+        })
+        binding.search.setOnClickListener {
+            navigateToSearch(searchQuery)
+        }
         viewModel.getList()
         return binding.root
+    }
+
+    private fun navigateToSearch(searchQuery: String) {
+        val query = SearchQuery(content = searchQuery)
+        if (listSearchQuery.isNotEmpty()) {
+            if (query !in listSearchQuery) {
+                listSearchQuery.add(query)
+                viewModel.insertSearchQuery(listSearchQuery)
+            }
+        } else {
+            listSearchQuery.add(query)
+            viewModel.insertSearchQuery(listSearchQuery)
+        }
+
+        findNavController().navigate(
+            HomeFragmentDirections.actionFirstFragmentToSearchFragment(
+                searchQuery
+            )
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -91,6 +156,8 @@ class HomeFragment : Fragment(), OnItemProductClickListener {
                     listProduct = it as ArrayList<Product>
                     productAdapter.listProduct = it
                     productAdapter.notifyDataSetChanged()
+                    bestSaleProductAdapter.listProduct = it
+                    bestSaleProductAdapter.notifyDataSetChanged()
                 }
             }
 
@@ -117,6 +184,13 @@ class HomeFragment : Fragment(), OnItemProductClickListener {
                     }
                 }
             }
+            getListSearchQuery().observe(viewLifecycleOwner) {
+                if (it != null && it.isNotEmpty()) {
+                    listSearchQuery = it as ArrayList<SearchQuery>
+                    searchQueryAdapter.listSearchQuery = it
+                    searchQueryAdapter.notifyDataSetChanged()
+                }
+            }
         }
     }
 
@@ -128,6 +202,17 @@ class HomeFragment : Fragment(), OnItemProductClickListener {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
         snapHelper.attachToRecyclerView(binding.recyclerViewProduct)
+
+        searchQueryAdapter = SearchQueryAdapter(listSearchQuery, this)
+        binding.recyclerHistory.apply {
+            adapter = searchQueryAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+        bestSaleProductAdapter = BestSaleProductAdapter(listProduct, this)
+        binding.recyclerViewBestSale.apply {
+            adapter = bestSaleProductAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
     }
 
     override fun onItemProductClick(product: Product) {
@@ -149,6 +234,15 @@ class HomeFragment : Fragment(), OnItemProductClickListener {
             listInvoiceLineInCart.add(product.convertToInvoiceLine())
         }
         viewModel.insertInvoiceLines(listInvoiceLineInCart)
+    }
+
+    override fun onItemClick(searchQuery: SearchQuery) {
+        navigateToSearch(searchQuery.content)
+    }
+
+    override fun onItemNavigateClick(product: Product) {
+        val action = HomeFragmentDirections.actionFirstFragmentToProductDetailFragment(product)
+        findNavController().navigate(action)
     }
 
 }

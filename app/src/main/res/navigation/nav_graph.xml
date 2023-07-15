@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_historyOrderFragment"
             app:destination="@id/historyOrderFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -40,7 +43,7 @@
     <fragment
         android:id="@+id/productDetailFragment"
         android:name="com.example.funiture_shop.ui.authentication.fragment.ProductDetailFragment"
-        android:label="ProductDetailFragment" >
+        android:label="Chi tiết sản phẩm" >
         <argument
             android:name="product"
             app:argType="com.example.funiture_shop.data.model.entity.Product" />
@@ -51,15 +54,19 @@
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.example.funiture_shop.ui.authentication.fragment.CartFragment"
-        android:label="CartFragment" />
+        android:label="Giỏ hàng" >
+        <action
+            android:id="@+id/action_cartFragment_to_newOrderInfoFragment"
+            app:destination="@id/newOrderInfoFragment" />
+    </fragment>
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.example.funiture_shop.ui.authentication.fragment.AccountFragment"
-        android:label="AccountFragment" />
+        android:label="Tài khoản" />
     <fragment
         android:id="@+id/ratingFragment"
         android:name="com.example.funiture_shop.ui.authentication.fragment.RatingFragment"
-        android:label="RatingFragment" >
+        android:label="Đánh giá" >
         <argument
             android:name="productID"
             app:argType="string" />
@@ -67,5 +74,28 @@
     <fragment
         android:id="@+id/historyOrderFragment"
         android:name="com.example.funiture_shop.ui.authentication.fragment.HistoryOrderFragment"
-        android:label="HistoryOrderFragment" />
+        android:label="Lịch sử đơn" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.funiture_shop.ui.authentication.fragment.SearchFragment"
+        android:label="SearchFragment" >
+        <argument
+            android:name="searchQuery"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_searchFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newOrderInfoFragment"
+        android:name="com.example.funiture_shop.ui.authentication.fragment.NewOrderInfoFragment"
+        android:label="NewOrderInfoFragment" >
+        <action
+            android:id="@+id/action_newOrderInfoFragment_to_chooseLocationFragment"
+            app:destination="@id/chooseLocationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseLocationFragment"
+        android:name="com.example.funiture_shop.ui.authentication.fragment.ChooseLocationFragment"
+        android:label="ChooseLocationFragment" />
 </navigation>

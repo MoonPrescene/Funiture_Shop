@@ -59,12 +59,6 @@ public class ProductDetailFragment extends Fragment {
             String message = "Đã thêm sản phẩm " + product.getName();
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
         });
-        binding.back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(binding.back).popBackStack();
-            }
-        });
         binding.review.setOnClickListener(view -> {
             Bundle args = new Bundle();
             args.putString("ratingArguments", product.getProductId());
@@ -85,20 +79,6 @@ public class ProductDetailFragment extends Fragment {
     }
 
     public void observeData() {
-        mViewModel.listInvoiceLineInCart().observe(getViewLifecycleOwner(), new Observer<List<InvoiceLine>>() {
-            @Override
-            public void onChanged(List<InvoiceLine> invoiceLines) {
-                if (invoiceLines != null) {
-                    listInvoiceLineInCart = new ArrayList<>(invoiceLines);
-                    if (!listInvoiceLineInCart.isEmpty()) {
-                        binding.isNotEmpty.setVisibility(View.VISIBLE);
-                    } else {
-                        binding.isNotEmpty.setVisibility(View.GONE);
-                    }
-                }
-            }
-        });
-
         mViewModel.listReview().observe(getViewLifecycleOwner(), new Observer<List<Review>>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override

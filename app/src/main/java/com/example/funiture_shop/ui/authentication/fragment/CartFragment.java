@@ -1,5 +1,7 @@
 package com.example.funiture_shop.ui.authentication.fragment;
 
+import static com.example.funiture_shop.di.AppExecutorsKt.runOnIoThread;
+
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -13,19 +15,20 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.funiture_shop.R;
+import com.example.funiture_shop.data.dao.InvoiceLineDao;
 import com.example.funiture_shop.data.model.adapters.InvoiceLineAdapter;
 import com.example.funiture_shop.data.model.adapters.OnItemInvoiceLineClickListener;
 import com.example.funiture_shop.data.model.entity.InvoiceLine;
 import com.example.funiture_shop.data.model.entity.Order;
 import com.example.funiture_shop.data.model.res.Res;
 import com.example.funiture_shop.databinding.FragmentCartBinding;
+import com.example.funiture_shop.helper.SharedPreferencesHelper;
 import com.example.funiture_shop.ui.authentication.viewmodel.CartViewModel;
 
 import java.text.NumberFormat;
@@ -34,6 +37,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.UUID;
+
+import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -45,6 +54,14 @@ public class CartFragment extends Fragment implements OnItemInvoiceLineClickList
     private Order order = new Order("", "", 0, "", "", 0, 0.0);
     private InvoiceLineAdapter invoiceLineAdapter;
     private ArrayList<InvoiceLine> listInvoiceLineInCart = new ArrayList<>();
+
+
+    @Inject
+    SharedPreferencesHelper sharedPreferencesHelper;
+
+    @Inject
+    InvoiceLineDao invoiceLineDao;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -63,50 +80,20 @@ public class CartFragment extends Fragment implements OnItemInvoiceLineClickList
                 createNewOrder();
             }
         });
-        binding.back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(binding.back).popBackStack();
-            }
-        });
+        binding.newOrderButton.setEnabled(listInvoiceLineInCart.isEmpty());
         observeData();
         return binding.getRoot();
     }
 
     public void observeData() {
-        mViewModel.listInvoiceLineInCart().observe(getViewLifecycleOwner(), new Observer<List<InvoiceLine>>() {
+        invoiceLineDao.getInvoiceLines().observe(getViewLifecycleOwner(), new Observer<List<InvoiceLine>>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onChanged(List<InvoiceLine> invoiceLines) {
                 if (invoiceLines != null) {
-                    Log.d("_CART", String.valueOf(invoiceLines.size()));
                     listInvoiceLineInCart = new ArrayList<>(invoiceLines);
-                    Log.d("_CART", String.valueOf(listInvoiceLineInCart.size()));
-                    if (!listInvoiceLineInCart.isEmpty()) {
-                        binding.isNotEmpty.setVisibility(View.VISIBLE);
-                        binding.sumPrice.setText(updateSumPrice());
-                        if (updateListInvoiceLine().isEmpty()) {
-                            binding.newOrderButton.setEnabled(false);
-                        } else {
-                            binding.newOrderButton.setEnabled(true);
-                        }
-
-                    } else {
-                        binding.newOrderButton.setEnabled(false);
-                        binding.isNotEmpty.setVisibility(View.GONE);
-                    }
                     invoiceLineAdapter.setListInvoiceLine(listInvoiceLineInCart);
                     invoiceLineAdapter.notifyDataSetChanged();
-                }
-            }
-        });
-        mViewModel.getCreateOrderInfo().observe(getViewLifecycleOwner(), new Observer<Res>() {
-            @Override
-            public void onChanged(Res res) {
-                if (res instanceof Res.Success) {
-                    Toast.makeText(requireContext(), "Tạo đơn thành công!", Toast.LENGTH_SHORT).show();
-                } else if (res instanceof Res.Error) {
-                    Toast.makeText(requireContext(), ((Res.Error) res).getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -179,7 +166,14 @@ public class CartFragment extends Fragment implements OnItemInvoiceLineClickList
         order.setQuantity(list.size());
         order.setTotal(sumPrice);
         order.setStatus(1);
-        mViewModel.createOrder(order);
+        order.setUserID(sharedPreferencesHelper.getUserName());
+        order.setOrderID(UUID.randomUUID().toString());
+        Bundle args = new Bundle();
+        args.putSerializable("order", order);
+        NewOrderInfoFragment destinationFragment = new NewOrderInfoFragment();
+        destinationFragment.setArguments(args);
+        Navigation.findNavController(requireView()).navigate(R.id.action_cartFragment_to_newOrderInfoFragment, args);
+        //createOrder(order);
     }
 
     @SuppressLint("SimpleDateFormat")

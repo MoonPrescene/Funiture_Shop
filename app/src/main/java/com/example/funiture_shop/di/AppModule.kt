@@ -7,6 +7,7 @@ import com.example.funiture_shop.data.dao.InvoiceLineDao
 import com.example.funiture_shop.data.dao.OrderDao
 import com.example.funiture_shop.data.dao.ProductDao
 import com.example.funiture_shop.data.dao.ReviewDao
+import com.example.funiture_shop.data.dao.SearchQueryDao
 import com.example.funiture_shop.data.dao.UserDao
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -69,4 +70,8 @@ class AppModule {
         return appDatabase.reviewDao()
     }
 
+    @Provides
+    fun provideSearchQueryDao(appDatabase: AppDatabase): SearchQueryDao {
+        return appDatabase.searchQueryDao()
+    }
 }

@@ -36,7 +36,6 @@ class UserRepository @Inject constructor(
     private val resetPasswordLiveData = MutableLiveData<Res>()
     private val getUserLiveData = MutableLiveData<Res>()
     private val createUserLiveData = MutableLiveData<Res>()
-    private lateinit var mUser: FirebaseUser
 
     fun signIn(email: String, pass: String): MutableLiveData<Res> {
         //this signInWithEmailAndPassword run default on main thread :v

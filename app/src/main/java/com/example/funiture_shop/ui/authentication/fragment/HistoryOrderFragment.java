@@ -12,17 +12,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import com.example.funiture_shop.R;
-import com.example.funiture_shop.data.model.adapters.InvoiceLineAdapter;
 import com.example.funiture_shop.data.model.adapters.OrderAdapter;
-import com.example.funiture_shop.data.model.entity.InvoiceLine;
 import com.example.funiture_shop.data.model.entity.Order;
 import com.example.funiture_shop.data.model.res.Res;
 import com.example.funiture_shop.databinding.FragmentHistoryOrderBinding;

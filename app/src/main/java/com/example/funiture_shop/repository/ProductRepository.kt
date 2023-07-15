@@ -1,15 +1,16 @@
 package com.example.funiture_shop.repository
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.funiture_shop.data.dao.InvoiceLineDao
 import com.example.funiture_shop.data.dao.OrderDao
 import com.example.funiture_shop.data.dao.ProductDao
 import com.example.funiture_shop.data.dao.ReviewDao
+import com.example.funiture_shop.data.dao.SearchQueryDao
 import com.example.funiture_shop.data.model.entity.InvoiceLine
 import com.example.funiture_shop.data.model.entity.Order
 import com.example.funiture_shop.data.model.entity.Product
 import com.example.funiture_shop.data.model.entity.Review
+import com.example.funiture_shop.data.model.entity.SearchQuery
 import com.example.funiture_shop.data.model.res.Res
 import com.example.funiture_shop.di.runOnIoThread
 import com.example.funiture_shop.helper.SharedPreferencesHelper
@@ -28,7 +29,8 @@ class ProductRepository @Inject constructor(
     private val productDao: ProductDao,
     private val orderDao: OrderDao,
     private val reviewDao: ReviewDao,
-    private val invoiceLineDao: InvoiceLineDao
+    private val invoiceLineDao: InvoiceLineDao,
+    private val searchQueryDao: SearchQueryDao
 ) {
     private val listProductLiveData = MutableLiveData<Res>()
     private val createOrderLiveData = MutableLiveData<Res>()
@@ -144,6 +146,14 @@ class ProductRepository @Inject constructor(
             orderDao.insertEntities(orders)
         }
     }
+
+    fun insertSearchQuery(searchQuery: List<SearchQuery>) {
+        runOnIoThread {
+            searchQueryDao.insertEntities(searchQuery)
+        }
+    }
+
+    fun getListSearchQuery() = searchQueryDao.getAllEntities()
 
     fun insertInvoiceLine(invoiceLine: ArrayList<InvoiceLine>) {
         runOnIoThread {

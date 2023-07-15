@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 import com.example.funiture_shop.data.model.entity.InvoiceLine
+import com.example.funiture_shop.data.model.entity.SearchQuery
 import com.example.funiture_shop.data.model.entity.User
 import com.example.funiture_shop.data.model.res.Res
 import com.example.funiture_shop.repository.ProductRepository
@@ -33,4 +34,9 @@ class HomeViewModel @Inject constructor(
         productRepository.insertInvoiceLine(invoiceLine = invoiceLines)
     }
 
+    fun insertSearchQuery(searchQuery: List<SearchQuery>) {
+        productRepository.insertSearchQuery(searchQuery)
+    }
+
+    fun getListSearchQuery() = productRepository.getListSearchQuery()
 }

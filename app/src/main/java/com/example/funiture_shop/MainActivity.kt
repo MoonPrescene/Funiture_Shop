@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
 
     override fun onStart() {
-        supportActionBar?.hide()
+        //supportActionBar?.hide()
         super.onStart()
     }
 
