@@ -168,11 +168,12 @@
             android:layout_gravity="center"
             android:layout_marginTop="64dp"
             android:layout_marginBottom="64dp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            android:indeterminateTint="@color/primary_500"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

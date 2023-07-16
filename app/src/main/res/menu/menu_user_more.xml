@@ -2,7 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/editInfo"
-        android:title="Chỉnh sửa thông tin" />
+        android:title="Tài khoản" />
+    <item
+        android:id="@+id/supportUser"
+        android:title="CSKH" />
     <item
         android:id="@+id/order_history"
         android:title="Lịch sử đơn" />

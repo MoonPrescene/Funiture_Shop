@@ -77,10 +77,13 @@ public class CartFragment extends Fragment implements OnItemInvoiceLineClickList
         binding.newOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createNewOrder();
+                if (listInvoiceLineInCart.isEmpty()) {
+                    Toast.makeText(requireContext(), "Giỏ hàng trống !", Toast.LENGTH_SHORT).show();
+                } else {
+                    createNewOrder();
+                }
             }
         });
-        binding.newOrderButton.setEnabled(listInvoiceLineInCart.isEmpty());
         observeData();
         return binding.getRoot();
     }
@@ -173,7 +176,6 @@ public class CartFragment extends Fragment implements OnItemInvoiceLineClickList
         NewOrderInfoFragment destinationFragment = new NewOrderInfoFragment();
         destinationFragment.setArguments(args);
         Navigation.findNavController(requireView()).navigate(R.id.action_cartFragment_to_newOrderInfoFragment, args);
-        //createOrder(order);
     }
 
     @SuppressLint("SimpleDateFormat")

@@ -19,14 +19,24 @@ import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.example.funiture_shop.R;
+import com.example.funiture_shop.data.dao.InvoiceLineDao;
 import com.example.funiture_shop.data.model.entity.Review;
 import com.example.funiture_shop.data.model.res.Res;
 import com.example.funiture_shop.databinding.FragmentRatingBinding;
+import com.example.funiture_shop.helper.SharedPreferencesHelper;
 import com.example.funiture_shop.ui.authentication.viewmodel.RatingViewModel;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Objects;
+import java.util.UUID;
+
+import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -38,6 +48,11 @@ public class RatingFragment extends Fragment {
     private FragmentRatingBinding binding;
 
     private Review review = new Review("", "", 0f, "", "", "");
+
+    @Inject
+    SharedPreferencesHelper sharedPreferencesHelper;
+    @Inject
+    FirebaseFirestore db;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -54,25 +69,36 @@ public class RatingFragment extends Fragment {
                 review.setRating(binding.ratingBar.getRating());
                 review.setTimeCreate(getCurrentTime());
                 review.setTextReview(binding.reviewEditText.getText().toString());
-                mViewModel.createReview(review);
-                Navigation.findNavController(binding.getRoot()).popBackStack();
+                createReview(review);
             }
         });
-        observeData();
         return binding.getRoot();
     }
 
-    private void observeData() {
-        mViewModel.getCreateReviewInfo().observe(getViewLifecycleOwner(), new Observer<Res>() {
-            @Override
-            public void onChanged(Res res) {
-                if (res instanceof Res.Success) {
-                    Toast.makeText(requireContext(), "Đánh giá thành công!", Toast.LENGTH_SHORT).show();
-                } else if (res instanceof Res.Error) {
-                    Toast.makeText(requireContext(), ((Res.Error) res).getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+    public void createReview(Review review) {
+        binding.loading.setVisibility(View.VISIBLE);
+        review.setCreater(sharedPreferencesHelper.getUserName());
+        review.setReviewID(UUID.randomUUID().toString());
+
+        CollectionReference reviewsCollection = db.collection("reviews, comments");
+        DocumentReference reviewDocument = reviewsCollection.document(review.getReviewID());
+
+        reviewDocument.set(review)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        binding.loading.setVisibility(View.GONE);
+                        Toast.makeText(requireContext(), "Đánh giá thành công!", Toast.LENGTH_SHORT).show();
+                        Navigation.findNavController(binding.getRoot()).popBackStack();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        binding.loading.setVisibility(View.GONE);
+                        Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @SuppressLint("SimpleDateFormat")

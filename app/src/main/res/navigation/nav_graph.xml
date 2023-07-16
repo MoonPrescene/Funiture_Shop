@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/HomeFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/HomeFragment"
         android:name="com.example.funiture_shop.ui.authentication.fragment.HomeFragment"
         android:label="Trang chủ"
         tools:layout="@layout/fragment_home">
@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_supportFragment"
+            app:destination="@id/supportFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -38,7 +41,7 @@
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            app:destination="@id/HomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/productDetailFragment"
@@ -78,7 +81,7 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.funiture_shop.ui.authentication.fragment.SearchFragment"
-        android:label="SearchFragment" >
+        android:label="Tìm kiếm sản phẩm" >
         <argument
             android:name="searchQuery"
             app:argType="string" />
@@ -89,7 +92,7 @@
     <fragment
         android:id="@+id/newOrderInfoFragment"
         android:name="com.example.funiture_shop.ui.authentication.fragment.NewOrderInfoFragment"
-        android:label="NewOrderInfoFragment" >
+        android:label="Tạo đơn" >
         <action
             android:id="@+id/action_newOrderInfoFragment_to_chooseLocationFragment"
             app:destination="@id/chooseLocationFragment" />
@@ -97,5 +100,17 @@
     <fragment
         android:id="@+id/chooseLocationFragment"
         android:name="com.example.funiture_shop.ui.authentication.fragment.ChooseLocationFragment"
-        android:label="ChooseLocationFragment" />
+        android:label="Chọn vị trí" />
+    <fragment
+        android:id="@+id/supportFragment"
+        android:name="com.example.funiture_shop.ui.authentication.fragment.SupportFragment"
+        android:label="Hỗ trợ" >
+        <action
+            android:id="@+id/action_supportFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.example.funiture_shop.ui.authentication.fragment.ChatFragment"
+        android:label="Chăm sóc khách hành" />
 </navigation>

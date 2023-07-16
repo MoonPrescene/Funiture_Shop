@@ -52,7 +52,11 @@ class SearchFragment : Fragment(), OnItemBestSaleProductListener {
             Log.d("_SEARCH", list.size.toString())
             listProduct = list as ArrayList<Product>
             bestSaleProductAdapter.listProduct =
-                listProduct.filter { it.name.contains(searchQuery) } as ArrayList<Product>
+                listProduct.filter {
+                    it.name.toLowerCase()
+                        .contains(searchQuery.toLowerCase()) || it.productId.toLowerCase()
+                        .contains(searchQuery.toLowerCase())
+                } as ArrayList<Product>
             Log.d(
                 "_SEARCH",
                 (listProduct.filter { it.name.contains(searchQuery) } as ArrayList<Product>).size.toString())

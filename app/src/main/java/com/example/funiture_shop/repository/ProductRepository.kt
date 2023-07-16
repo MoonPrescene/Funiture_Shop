@@ -72,6 +72,7 @@ class ProductRepository @Inject constructor(
         return listOrderLiveData
     }
 
+
     fun getListReview(): MutableLiveData<Res> {
         db.collection("reviews, comments")
             .get()
@@ -88,6 +89,8 @@ class ProductRepository @Inject constructor(
             }
         return reviewsLiveData
     }
+
+
 
     fun createReview(review: Review): MutableLiveData<Res> {
 

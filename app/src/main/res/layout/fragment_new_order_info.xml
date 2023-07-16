@@ -48,25 +48,41 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addressTextField"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/activity_horizontal_margin"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                    android:hint="Địa chỉ"
-                    app:endIconDrawable="@drawable/baseline_add_location_alt_24"
-                    app:endIconMode="custom"
-                    app:layout_constraintTop_toBottomOf="@id/topBg">
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:minHeight="54dp"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/address"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <TextView
+                            android:id="@+id/test"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="12dp"
+                            android:layout_weight="9"
+                            android:hint="Địa chỉ"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:src="@drawable/baseline_add_location_alt_24" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/timeCreateTextField"

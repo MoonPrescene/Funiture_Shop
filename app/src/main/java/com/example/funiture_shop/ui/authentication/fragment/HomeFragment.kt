@@ -4,12 +4,12 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -88,6 +88,7 @@ class HomeFragment : Fragment(), OnItemProductClickListener, OnItemSearchQueryLi
             navigateToSearch(searchQuery)
         }
         viewModel.getList()
+        binding.loading.visibility = View.VISIBLE
         return binding.root
     }
 
@@ -127,6 +128,11 @@ class HomeFragment : Fragment(), OnItemProductClickListener, OnItemSearchQueryLi
 
                         R.id.order_history -> {
                             findNavController().navigate(R.id.action_FirstFragment_to_historyOrderFragment)
+                            true
+                        }
+
+                        R.id.supportUser -> {
+                            findNavController().navigate(R.id.action_HomeFragment_to_supportFragment)
                             true
                         }
 
@@ -172,6 +178,7 @@ class HomeFragment : Fragment(), OnItemProductClickListener, OnItemSearchQueryLi
                 }
             }
             info.observe(viewLifecycleOwner) {
+                binding.loading.visibility = View.GONE
                 when (it) {
                     is Res.Success<*> -> {
                         requireContext().showToast("Get list product success!")
@@ -233,6 +240,8 @@ class HomeFragment : Fragment(), OnItemProductClickListener, OnItemSearchQueryLi
             product.quantity = 1
             listInvoiceLineInCart.add(product.convertToInvoiceLine())
         }
+        val message = "Đã thêm sản phẩm " + product.name
+        requireContext().showToast(message)
         viewModel.insertInvoiceLines(listInvoiceLineInCart)
     }
 
