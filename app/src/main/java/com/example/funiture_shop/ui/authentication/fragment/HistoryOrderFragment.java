@@ -21,6 +21,7 @@ import com.example.funiture_shop.R;
 import com.example.funiture_shop.data.dao.OrderDao;
 import com.example.funiture_shop.data.model.adapters.OrderAdapter;
 import com.example.funiture_shop.data.model.entity.Order;
+import com.example.funiture_shop.data.model.entity.Review;
 import com.example.funiture_shop.databinding.FragmentHistoryOrderBinding;
 import com.example.funiture_shop.ui.authentication.viewmodel.HistoryOrderViewModel;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -104,7 +105,7 @@ public class HistoryOrderFragment extends Fragment {
                         for (QueryDocumentSnapshot document : querySnapshot) {
                             list.add(convertToOrder(document));
                         }
-                        orderDao.insertEntities(list);
+                        insertOrders(list);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -114,6 +115,15 @@ public class HistoryOrderFragment extends Fragment {
                         Toast.makeText(requireContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    public void insertOrders(ArrayList<Order> list) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                orderDao.insertEntities(list);
+            }
+        }).start();
     }
 
     private Order convertToOrder(QueryDocumentSnapshot document) {

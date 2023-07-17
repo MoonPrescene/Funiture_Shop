@@ -53,6 +53,9 @@
         <action
             android:id="@+id/action_productDetailFragment_to_ratingFragment"
             app:destination="@id/ratingFragment" />
+        <action
+            android:id="@+id/action_productDetailFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
@@ -65,7 +68,11 @@
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.example.funiture_shop.ui.authentication.fragment.AccountFragment"
-        android:label="Tài khoản" />
+        android:label="Tài khoản" >
+        <action
+            android:id="@+id/action_accountFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
+    </fragment>
     <fragment
         android:id="@+id/ratingFragment"
         android:name="com.example.funiture_shop.ui.authentication.fragment.RatingFragment"
@@ -73,11 +80,18 @@
         <argument
             android:name="productID"
             app:argType="string" />
+        <action
+            android:id="@+id/action_ratingFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
     </fragment>
     <fragment
         android:id="@+id/historyOrderFragment"
         android:name="com.example.funiture_shop.ui.authentication.fragment.HistoryOrderFragment"
-        android:label="Lịch sử đơn" />
+        android:label="Lịch sử đơn" >
+        <action
+            android:id="@+id/action_historyOrderFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.funiture_shop.ui.authentication.fragment.SearchFragment"
@@ -88,6 +102,9 @@
         <action
             android:id="@+id/action_searchFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
     </fragment>
     <fragment
         android:id="@+id/newOrderInfoFragment"
@@ -96,11 +113,18 @@
         <action
             android:id="@+id/action_newOrderInfoFragment_to_chooseLocationFragment"
             app:destination="@id/chooseLocationFragment" />
+        <action
+            android:id="@+id/action_newOrderInfoFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
     </fragment>
     <fragment
         android:id="@+id/chooseLocationFragment"
         android:name="com.example.funiture_shop.ui.authentication.fragment.ChooseLocationFragment"
-        android:label="Chọn vị trí" />
+        android:label="Chọn vị trí" >
+        <action
+            android:id="@+id/action_chooseLocationFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
+    </fragment>
     <fragment
         android:id="@+id/supportFragment"
         android:name="com.example.funiture_shop.ui.authentication.fragment.SupportFragment"
@@ -108,9 +132,16 @@
         <action
             android:id="@+id/action_supportFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_supportFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
     </fragment>
     <fragment
         android:id="@+id/chatFragment"
         android:name="com.example.funiture_shop.ui.authentication.fragment.ChatFragment"
-        android:label="Chăm sóc khách hành" />
+        android:label="Chăm sóc khách hành" >
+        <action
+            android:id="@+id/action_chatFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
+    </fragment>
 </navigation>

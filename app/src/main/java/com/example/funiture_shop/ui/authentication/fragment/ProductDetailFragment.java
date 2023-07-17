@@ -27,12 +27,10 @@ import com.example.funiture_shop.data.model.adapters.ReviewAdapter;
 import com.example.funiture_shop.data.model.entity.InvoiceLine;
 import com.example.funiture_shop.data.model.entity.Product;
 import com.example.funiture_shop.data.model.entity.Review;
-import com.example.funiture_shop.data.model.res.Res;
 import com.example.funiture_shop.databinding.FragmentProductDetailBinding;
 import com.example.funiture_shop.ui.authentication.viewmodel.ProductDetailViewModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -145,7 +143,7 @@ public class ProductDetailFragment extends Fragment {
             listInvoiceLineInCart.add(product.convertToInvoiceLine());
         }
         Toast.makeText(requireContext(), product.getProductId(), Toast.LENGTH_SHORT).show();
-        invoiceLineDao.insertEntities(listInvoiceLineInCart);
+        insertAllInvoiceLine();
     }
 
     public void getListReview() {
@@ -160,7 +158,7 @@ public class ProductDetailFragment extends Fragment {
                         for (QueryDocumentSnapshot document : querySnapshot) {
                             list.add(convertToReview(document));
                         }
-                        reviewDao.insertEntities(list);
+                        insertReview(list);
 
                     }
                 })
@@ -184,5 +182,22 @@ public class ProductDetailFragment extends Fragment {
         );
     }
 
+    public void insertAllInvoiceLine() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                invoiceLineDao.deleteAll();
+                invoiceLineDao.insertEntities(listInvoiceLineInCart);
+            }
+        }).start();
+    }
 
+    public void insertReview(ArrayList<Review> list) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                reviewDao.insertEntities(list);
+            }
+        }).start();
+    }
 }

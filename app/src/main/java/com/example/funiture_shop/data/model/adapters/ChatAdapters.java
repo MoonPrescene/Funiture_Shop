@@ -66,11 +66,13 @@ public class ChatAdapters extends RecyclerView.Adapter<ChatAdapters.ViewHolder> 
                 binding.chatCustomer.setVisibility(View.GONE);
                 binding.chatUser.setVisibility(View.VISIBLE);
                 binding.userMessage.setText(chat.getMessage());
+                binding.timeUser.setText(chat.getTimeCreate());
                 Picasso.get().load(user.getImageUrl()).into(binding.userImage);
             } else {
                 binding.chatCustomer.setVisibility(View.VISIBLE);
                 binding.chatUser.setVisibility(View.GONE);
                 binding.customerMessage.setText(chat.getMessage());
+                binding.timeCustomer.setText(chat.getTimeCreate());
                 Picasso.get().load(customer.getImageUrl()).into(binding.customerImage);
             }
         }
